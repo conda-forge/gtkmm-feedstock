@@ -5,7 +5,7 @@ Home: https://www.gtkmm.org
 
 Package license: LGPL-2.1-or-later
 
-Feedstock license: BSD 3-Clause
+Feedstock license: BSD-3-Clause
 
 Summary: C++ bindings for gtk
 
