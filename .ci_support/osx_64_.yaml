@@ -15,11 +15,11 @@ cxx_compiler:
 cxx_compiler_version:
 - '11'
 glib:
-- '2.66'
+- '2'
 macos_machine:
 - x86_64-apple-darwin13.4.0
 pango:
-- '1.42'
+- '1.48'
 pin_run_as_build:
   cairo:
     max_pin: x.x
