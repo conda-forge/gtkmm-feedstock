@@ -10,6 +10,8 @@ set ^"MESON_OPTIONS=^
   --wrap-mode=nofallback ^
   --buildtype=release ^
   --backend=ninja ^
+  -Dbuild-demos=false ^
+  -Dbuild-tests=false ^
  ^"
 
 :: configure build using meson
@@ -21,9 +23,6 @@ meson configure builddir
 if errorlevel 1 exit 1
 
 ninja -v -C builddir -j %CPU_COUNT%
-if errorlevel 1 exit 1
-
-ninja -v -C builddir test -j %CPU_COUNT%
 if errorlevel 1 exit 1
 
 ninja -C builddir install -j %CPU_COUNT%

@@ -9,8 +9,9 @@ meson ${MESON_ARGS} \
     --buildtype=release \
     --prefix="${PREFIX}" \
     -Dlibdir=lib \
+    -Dbuild-demos=false \
+    -Dbuild-tests=false \
     builddir .
 
 ninja -C builddir -j${CPU_COUNT}
-ninja -C builddir test
 ninja -C builddir install
