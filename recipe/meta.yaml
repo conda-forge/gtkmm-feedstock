@@ -57,13 +57,11 @@ outputs:
       run_constrained:
         - gtkmm {{ version }}
     test:
-      requires:
-        - pkg-config
       commands:
         - test -f ${PREFIX}/lib/libgtkmm-{{ abi_version }}${SHLIB_EXT}  # [unix]
         - if not exist %LIBRARY_BIN%\\gtkmm-vc142-{{ abi_version }}-1.dll exit 1  # [win]
-        - pkg-config --cflags --libs gtkmm-{{ abi_version }}
-        - pkg-config --exact-version {{ version }} gtkmm-{{ abi_version }}
+        - test -f ${PREFIX}/lib/pkgconfig/gtkmm-{{ abi_version }}.pc  # [unix]
+        - if not exist %LIBRARY_LIB%\\pkgconfig\\gtkmm-{{ abi_version }}.pc exit 1  # [win]
 
   - name: gtkmm
     requirements:
