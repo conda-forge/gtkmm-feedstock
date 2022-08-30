@@ -10,6 +10,8 @@ package:
 source:
   url: https://download.gnome.org/sources/gtkmm/{{ ver_maj_min }}/gtkmm-{{ version }}.tar.xz
   sha256: 4b3e142e944e1633bba008900605c341a93cfd755a7fa2a00b05d041341f11d6
+  patches:
+    - demos-meson.diff
 
 build:
   number: 0
