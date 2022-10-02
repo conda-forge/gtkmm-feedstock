@@ -1,0 +1,12 @@
+diff --git a/demos/gtk-demo/meson.build b/demos/gtk-demo/meson.build
+index dcb318fa..2a07d7f9 100644
+--- a/demos/gtk-demo/meson.build
++++ b/demos/gtk-demo/meson.build
+@@ -41,6 +41,7 @@ if epoxy_dep.found()
+   demo_resources = gnome.compile_resources('demo-resources',
+     'demo.gresource.xml',
+     source_dir: meson.current_source_dir(),
++    build_by_default: build_demos,
+     install: false,
+   )
+ 

@@ -1,0 +1,23 @@
+diff --git a/meson.build b/meson.build
+index aa9242d6..89718042 100644
+--- a/meson.build
++++ b/meson.build
+@@ -299,17 +299,7 @@ if is_msvc
+   endif
+ 
+   if use_msvc14x_toolset_ver
+-    if cpp_compiler.version().version_compare('>=19.30')
+-      msvc14x_toolset_ver = '-vc143'
+-    elif cpp_compiler.version().version_compare('>=19.20')
+-      msvc14x_toolset_ver = '-vc142'
+-    elif cpp_compiler.version().version_compare('>=19.10')
+-      msvc14x_toolset_ver = '-vc141'
+-    elif cpp_compiler.version().version_compare('>=19.00')
+-      msvc14x_toolset_ver = '-vc140'
+-    else
+-      message('Visual Studio toolset version not applied for pre-Visual Studio 2015 builds')
+-    endif
++    msvc14x_toolset_ver = '-vc14'
+   endif
+ else
+   build_shared_libs_directly = true

@@ -1,5 +1,5 @@
 {% set name = "gtkmm" %}
-{% set version = "3.24.2" %}
+{% set version = "3.24.7" %}
 {% set ver_maj_min = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "3.0" %}
 
@@ -8,18 +8,21 @@ package:
   version: {{ version }}
 
 source:
-  url: http://ftp.gnome.org/pub/GNOME/sources/gtkmm/{{ ver_maj_min }}/gtkmm-{{ version }}.tar.xz
-  sha256: 6d71091bcd1863133460d4188d04102810e9123de19706fb656b7bb915b4adc3
+  url: https://download.gnome.org/sources/gtkmm/{{ ver_maj_min }}/gtkmm-{{ version }}.tar.xz
+  sha256: 1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c
+  patches:
+    - demos-meson.diff
+    - vc-meson.diff  # [win]
 
 build:
-  number: 3
-  skip: true  # [win]
+  number: 0
   run_exports:
     - gtkmm-{{ abi_version }} >={{ version }}
 
 outputs:
   - name: gtkmm-{{ abi_version }}
-    script: build_gtkmm.sh
+    script: build_gtkmm.sh   # [unix]
+    script: build_gtkmm.bat  # [win]
     build:
       run_exports:
         - gtkmm-{{ abi_version }} >={{ version }}
@@ -27,7 +30,8 @@ outputs:
       build:
         - {{ compiler('c') }}
         - {{ compiler('cxx') }}
-        - make
+        - meson
+        - ninja
         - pkg-config
         - {{ cdt('libice-devel') }}  # [linux]
         - {{ cdt('libsm-devel') }}  # [linux]
@@ -47,25 +51,20 @@ outputs:
         - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
       host:
         - gtk3 >=3.24.0
-        - glibmm >=2.54.0
-        - cairomm >=1.12.0
-        - pangomm >=2.38.2
+        - cairomm-1.0
+        - pangomm-1.4
         - sigcpp-2.0
-        - atkmm >=2.24.2
-        - cairo
+        - atkmm-1.6
+        - glibmm-2.4
         - glib
-        - atk
-        - gdk-pixbuf >=2.35.5
-        - pango
-        - glib
-      run:
-        - {{ pin_compatible("pango") }}
-        - {{ pin_compatible("glibmm") }}
       run_constrained:
         - gtkmm {{ version }}
     test:
       commands:
-        - test -f ${PREFIX}/lib/libgtkmm-{{ abi_version }}${SHLIB_EXT}
+        - test -f ${PREFIX}/lib/libgtkmm-{{ abi_version }}${SHLIB_EXT}  # [unix]
+        - if not exist %LIBRARY_BIN%\\gtkmm-vc14-{{ abi_version }}-1.dll exit 1  # [win]
+        - test -f ${PREFIX}/lib/pkgconfig/gtkmm-{{ abi_version }}.pc  # [unix]
+        - if not exist %LIBRARY_LIB%\\pkgconfig\\gtkmm-{{ abi_version }}.pc exit 1  # [win]
 
   - name: gtkmm
     requirements:
@@ -73,7 +72,8 @@ outputs:
         - gtkmm-{{ abi_version }}  {{ version }}
     test:
       commands:
-        - test -f ${PREFIX}/lib/pkg-config/gtkmm-{{ abi_version }}.pc
+        - test -f ${PREFIX}/lib/pkgconfig/gtkmm-{{ abi_version }}.pc  # [unix]
+        - if not exist %LIBRARY_LIB%\\pkgconfig\\gtkmm-{{ abi_version }}.pc exit 1  # [win]
 
 
 about:
@@ -86,3 +86,4 @@ about:
 extra:
   recipe-maintainers:
     - isuruf
+    - tschoonj
