@@ -12,6 +12,7 @@ source:
   sha256: 1d7a35af9c5ceccacb244ee3c2deb9b245720d8510ac5c7e6f4b6f9947e6789c
   patches:
     - demos-meson.diff
+    - vc-meson.diff  # [win]
 
 build:
   number: 0
@@ -61,7 +62,7 @@ outputs:
     test:
       commands:
         - test -f ${PREFIX}/lib/libgtkmm-{{ abi_version }}${SHLIB_EXT}  # [unix]
-        - if not exist %LIBRARY_BIN%\\gtkmm-vc142-{{ abi_version }}-1.dll exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\\gtkmm-vc14-{{ abi_version }}-1.dll exit 1  # [win]
         - test -f ${PREFIX}/lib/pkgconfig/gtkmm-{{ abi_version }}.pc  # [unix]
         - if not exist %LIBRARY_LIB%\\pkgconfig\\gtkmm-{{ abi_version }}.pc exit 1  # [win]
 
